@@ -38,10 +38,13 @@ $(document).ready(function() {
 	
 	$("#modBtn").click(function(e){
 		
+		var obj = {reText:"한글테스트", replyer:"user11"};
+		
 		$.ajax({
-			type:'post',
+			type:'put',
 			url:'/replies/321/21',
-			headers:{"Content-Type":"application/json", "X-HTTP-Method-Override": "PUT" },
+			headers:{"Content-Type":"application/json"},
+			data: JSON.stringify(obj),
 			success:function(msg){		
 				console.log(msg);
 			}
