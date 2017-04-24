@@ -20,4 +20,6 @@ public interface StoreDAO {
 	
 	public List<StoreVO> list(Criteria cri);
 	
+	public int listCount(Criteria cri);
+	
 }

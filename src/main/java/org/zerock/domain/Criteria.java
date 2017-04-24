@@ -1,17 +1,54 @@
 package org.zerock.domain;
 //검색기능이라고 생각하면됨. 페이지 번호가 필요함.
 
+import java.util.Arrays;
+
 public class Criteria {
 
 	private int page;
 	private int size;
+	private String type;
+	private String keyword;
+	private String types[];
 	
+	
+	public String[] getTypes() {
+		return types;
+	}
+
+
+	public void setTypes(String[] types) {
+		this.types = types;
+	}
+
+
 	public Criteria(){
-		this.page =2;
+		this.page =1;
 		this.size = 10;
 		
 	}
 	
+	
+	public String getType() {
+		return type;
+	}
+
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+
 	
 	public Criteria settingPage(int page){
 		if(page <=0){
@@ -58,5 +95,24 @@ public class Criteria {
 		
 		return this.size;
 	}
+
+	
+	public String getSql(){
+		
+		return "AND 1 = 1 AND 2 = 2 AND 3 = 3";
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "Criteria [page=" + page + ", size=" + size + ", type=" + type + ", keyword=" + keyword + ", types="
+				+ Arrays.toString(types) + "]";
+	}
+
+
+
+	
 	
 }

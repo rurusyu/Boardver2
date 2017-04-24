@@ -49,7 +49,9 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
+
 <body class="hold-transition skin-blue sidebar-mini">
+
 	<div class="wrapper">
 
 		<header class="main-header">
@@ -514,26 +516,20 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table class="table table-bordered">
+              <table class="table table-bordered" style = "text-align:center">
                 <tbody><tr>
-                  <th style="width: 10px">#</th>
-                  <th>Title</th>
-                  <th>RegDate</th>
-                  <th style="width: 40px">Label</th>
+                  <th style="width: 80px">가게번호</th>
+                  <th >가게이름</th>
+                  <th>내  용</th>
+              		<th>평  점</th>
                 </tr>
                 <c:forEach var="store" items="${list}"> 
                 <tr>
                   <td>${store.sno}</td>
                   <td><a class='sview' href='${store.sno}'>${store.sname}</a></td>
-                  <td>${store.regdate}</td>
-                  <td>${store.updatedate}</td>
-                  
-               
-                  <td>
-                    <div class="progress progress-xs">
-                      <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                    </div>
-                  </td>
+                  <td >${store.info}</td>
+          
+         
                   <td><span class="badge bg-red">55%</span></td>
                 </tr>
                 </c:forEach>
@@ -541,7 +537,27 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
-            <h2>${pageMaker}</h2>
+            ${cri}
+            <form id="f1" action="/store/list" method="get">
+							<input type='hidden' id='hpage' name='page' value="${pageMaker.current}">
+							<input type='hidden' id='hsno' name='sno'>
+							 
+							 <div>
+            	<select name = 'type'> <!--검색조건 눌렀을때, 정보유지 + 해당 키워드로 검색 type을 맞춰줘야함 -->
+            		<option value='x' ${cri.type eq 'x' ? "selected":""}>-----</option>
+            		<option value='n' ${cri.type eq 'n' ? "selected":""}>Sname</option>
+            		<option value='c' ${cri.type eq 'c' ? "selected":""}>Info</option>
+            		<option value='nc' ${cri.type eq 'nc' ? "selected":""}>Sname+Info</option>
+            	</select>
+            
+            	<input type = 'text' name='keyword' value="${cri.keyword}">
+            	<button id='searchBtn'>Search</button>
+            
+            </div>
+	
+							</form>
+            
+            
               <ul class="pagination pagination-sm no-margin pull-right">
               <c:if test="${pageMaker.prev}">
                 <li><a href="${pageMaker.start-1}">«</a></li>
@@ -749,10 +765,7 @@
 	</div>
 	<!-- ./wrapper -->
 	
-<form id="f1" action="/store/list" method="get">
-<input type='hidden' id='hpage' name='page' value="${pageMaker.current}">
-<input type='hidden' id='hsno' name='sno'>
-</form>
+
 
 	<!-- jQuery 2.2.3 -->
 	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -795,6 +808,15 @@
 	
 	$(document).ready(function() {
 		
+		
+		$("#searchBtn").click(function(e) {
+			e.preventDefault();
+			$('#hpage').val("1"); /* 페이지주소 1페이지로 가게 해줌 */
+			$("#f1").submit();
+			
+			
+		})
+		
 		$(".sview").on("click", function(e) {
 			e.preventDefault();
 			$("#hsno").val($(this).attr("href"));
@@ -819,3 +841,6 @@
 </body>
 </html>
 
+
+   
+           

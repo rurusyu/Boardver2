@@ -25,7 +25,14 @@ public class StoreDAOTest {
 	@Test
 	public void testList(){
 		
-		dao.list(new Criteria().settingPage(2).settingSize(5))
+		Criteria cri = new Criteria();
+		cri.setKeyword("33");
+		cri.setType("c");
+		cri.setTypes(new String[]{"n", "c"});
+		
+		dao.list(cri
+//				new Criteria().settingPage(2).settingSize(5)
+				)
 		.forEach(store -> logger.info(store)); //어차피 리턴이 this니깐 이렇게 코딩
 		
 	}

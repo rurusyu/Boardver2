@@ -9,17 +9,57 @@
   	select now()  
   </select>
   
+  <sql id="search">
+  
+   <if test="keyword != null">
+  <choose>
+    <when test='type == "c"'>
+     AND info LIKE concat('%', #{keyword}, '%')
+    </when>
+    <when test='type == "n"'>
+      AND sname LIKE concat('%', #{keyword}, '%')
+    </when>
+    <when test='type == "nc"'>
+      AND (sname like concat('%', #{keyword}, '%') OR info like concat('%', #{keyword}, '%'))
+    </when>
+    <otherwise>
+     
+    </otherwise>
+  </choose>
+    </if>
+ 
+  </sql>
+  
+  
   <insert id="create" parameterType="StoreVO">
   insert into tbl_store(sname, lat, lng, info) 
   values(#{sname},#{lat},#{lng},#{info})
+  
   </insert>
   
+  
   <select id="list" parameterType="Criteria" resultType="StoreVO">
-  
-  select * from tbl_store where sno >0 order by sno desc limit #{skip}, #{amount}
-  
-  </select>
-  
+        select * from tbl_store where sno>0
+    <include refid="search"></include>
+    
+        order by sno desc limit #{skip},#{amount}
+    </select>
+    
+    <select id="listCount" parameterType="Criteria" resultType="int">
+        select count(sno) from tbl_store where sno>0
+            <include refid="search"></include>
+    </select>
+
+	<select id="lisTypes" parameterType="Criteria" resultType="StoreVO">
+        select * from tbl_store where sno>0
+   
+    	${sql}<!-- 회사에서 많이 안씀. 절체절명의 위기에서 사용해서 위기를 극복할 것. -->
+    	
+        order by sno desc limit #{skip},#{amount}
+    </select>
+
+
+ 
   <update id="update" parameterType="StoreVO">
   update tbl_board set title = #{title}, content=#{content} where bno =#{bno}
   </update>
